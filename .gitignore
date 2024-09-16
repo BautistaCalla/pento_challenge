@@ -1,0 +1,11 @@
+# python cache
+__pycache__/
+
+# virtual environment
+.venv/
+
+# model
+*.pth
+
+# dataset
+dogs/
