@@ -2,15 +2,23 @@ import streamlit as st
 import torch
 from torchvision import transforms
 from PIL import Image
-import io
 from model import get_model
 from config import NUM_CLASSES
+from huggingface_hub import hf_hub_download
+import io
 
 # Load the model
 @st.cache_resource
 def load_model():
     model = get_model(NUM_CLASSES)
-    model.load_state_dict(torch.load('dog_breed_classifier.pth', map_location=torch.device('cpu')))
+    
+    # Download the model file directly into memory
+    model_file = hf_hub_download(repo_id="bcallander/dog_breed_classifier", filename="dog_breed_classifier.pth")
+    
+    with open(model_file, "rb") as f:
+        model_bytes = io.BytesIO(f.read())
+    
+    model.load_state_dict(torch.load(model_bytes, map_location=torch.device('cpu')))
     model.eval()
     return model
 
@@ -62,5 +70,6 @@ def main():
         st.write(f"Confidence: {confidence:.2f}")
 
         st.image(image, caption='Uploaded Image', use_column_width=True)
+
 if __name__ == "__main__":
     main()
