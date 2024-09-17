@@ -55,9 +55,18 @@ You can try out the live demo of this application on Streamlit Sharing:
 ## Usage
 
 1. To train the model and generate visualizations:
+   
+   Without data augmentation:
    ```
    poetry run python main.py
    ```
+
+   With data augmentation:
+   ```
+   poetry run python main.py --augment
+   ```
+
+   The `--augment` flag enables data augmentation during training, which can help improve model performance and generalization.
 
 2. To make predictions on a single image:
    ```
@@ -66,16 +75,38 @@ You can try out the live demo of this application on Streamlit Sharing:
 
 3. To run the Streamlit app locally:
    ```
-    poetry run streamlit run app.py
+   poetry run streamlit run app.py
    ```
 
 ## Model
 
 The project uses a fine-tuned ResNet101 model pretrained on ImageNet. The final fully connected layer is replaced to match the number of dog breed classes in the dataset.
 
+## Data Augmentation
+
+When using the `--augment` flag during training, the following augmentations are applied to the training data:
+- Random resized crop (scale: 0.8 to 1.0)
+- Random horizontal flip
+- Random rotation (up to 15 degrees)
+- Random affine transformation (small translations and scaling)
+
+These augmentations help increase the diversity of the training data, potentially improving the model's ability to generalize to new images.
+
 ## Evaluation
 
 The model's performance is evaluated using accuracy, confusion matrix, and a classification report. Visualizations of training curves and sample predictions are also generated.
+
+## Generated Images
+
+During the training and evaluation process, the following images are generated:
+
+1. `training_curves.png`: This image shows the training and validation loss curves, as well as the training and validation accuracy curves over the epochs.
+
+2. `confusion_matrix.png`: A heatmap visualization of the confusion matrix, showing the model's performance across different dog breeds.
+
+3. `predictions.png`: Sample predictions made by the model on validation data, displaying both the true labels and predicted labels.
+
+These images can be found in the root directory of the project after running the training script. They provide valuable insights into the model's performance and learning progress.
 
 ## Contributing
 

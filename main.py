@@ -1,3 +1,4 @@
+import click
 from train import prepare_data_and_model, train_model
 from evaluate import evaluate_model, print_evaluation_results
 from visualize import plot_training_curves, plot_confusion_matrix, visualize_predictions
@@ -5,8 +6,10 @@ from config import NUM_EPOCHS
 import torch
 from sklearn.metrics import confusion_matrix
 
-def main():
-    model, criterion, optimizer, train_loader, val_loader, dataset = prepare_data_and_model()
+@click.command()
+@click.option('--augment', is_flag=True, help="Use data augmentation during training")
+def main(augment):
+    model, criterion, optimizer, train_loader, val_loader, dataset = prepare_data_and_model(augment)
 
     # Train the model
     train_losses, val_losses, train_accuracies, val_accuracies = train_model(

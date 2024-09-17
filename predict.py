@@ -5,7 +5,6 @@ import argparse
 from model import get_model
 from config import NUM_CLASSES
 
-# Define the transformation for the input image
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
@@ -42,7 +41,6 @@ def main():
     parser.add_argument("--threshold", type=float, default=0.7, help="Confidence threshold for prediction")
     args = parser.parse_args()
 
-    # Define class names (make sure this matches your training data)
     class_names = ['french_bulldog', 'german_shepherd', 'golden_retriever', 'poodle']
 
     model = load_model(args.model_path)

@@ -69,8 +69,8 @@ def train_model(model, criterion, optimizer, train_loader, val_loader, num_epoch
 
     return train_losses, val_losses, train_accuracies, val_accuracies
 
-def prepare_data_and_model():
-    dataset = get_dataset(DATA_DIR, augmented=True)
+def prepare_data_and_model(augmented=False):
+    dataset = get_dataset(DATA_DIR, augmented=augmented)
     train_size = int(0.8 * len(dataset))
     val_size = len(dataset) - train_size
     train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
