@@ -41,7 +41,7 @@ def predict_image(model, image, class_names, threshold=0.6):
     predicted_class = class_names[predicted.item()]
 
     if confidence < threshold:
-        return "other", confidence
+        return "other", None
     else:
         return predicted_class, confidence
 
@@ -53,7 +53,7 @@ def main():
     model = load_model()
 
     # Define class names (make sure this matches your training data)
-    class_names = ['french_bulldog', 'german_shepherd', 'golden_retriever', 'poodle']
+    class_names = ['French Bulldog', 'German Shepherd', 'Golden Retriever', 'Poodle']
 
     # File uploader
     uploaded_file = st.file_uploader("Choose an image of a dog...", type=["jpg", "jpeg", "png"])
@@ -66,8 +66,11 @@ def main():
         predicted_class, confidence = predict_image(model, image, class_names, threshold=0.6)
 
         # Display results
-        st.write(f"Predicted breed: {predicted_class}")
-        st.write(f"Confidence: {confidence:.2f}")
+        if predicted_class == "other":
+            st.write("The image doesn't match any of the known dog breeds with sufficient confidence.")
+        else:
+            st.write(f"Predicted breed: {predicted_class}")
+            st.write(f"Confidence: {confidence:.2f}")
 
         st.image(image, caption='Uploaded Image', use_column_width=True)
 
