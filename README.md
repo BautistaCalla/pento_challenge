@@ -92,6 +92,16 @@ When using the `--augment` flag during training, the following augmentations are
 
 These augmentations help increase the diversity of the training data, potentially improving the model's ability to generalize to new images.
 
+## Model Hosting and Caching
+
+The trained model is hosted on the Hugging Face Hub, making it easily accessible for the Streamlit application. When the Streamlit app runs, it downloads the model from the Hugging Face Hub and caches it using Streamlit's caching mechanism. This approach ensures:
+
+1. Easy deployment: The model doesn't need to be included in the repository.
+2. Version control: We can update the model on Hugging Face Hub without changing the application code.
+3. Efficient loading: Streamlit's caching prevents unnecessary reloading of the model between sessions.
+
+The model is downloaded and cached in the `load_model()` function in the `app.py` file.
+
 ## Evaluation
 
 The model's performance is evaluated using accuracy, confusion matrix, and a classification report. Visualizations of training curves and sample predictions are also generated.
